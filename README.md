@@ -1,0 +1,1 @@
+# ZeroDefect_AI_Industrial_Anomaly
