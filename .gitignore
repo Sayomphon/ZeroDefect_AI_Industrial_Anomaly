@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+
+# Data and generated artifacts
+data/*
+!data/README.md
+artifacts/*
+!artifacts/README.md
+outputs/
+graphify-out/
+
+# Local planning source (not part of the code publication)
+03_ZeroDefect_AI_Industrial_Anomaly_Plan.docx
+
+# Notebooks and editors
+.ipynb_checkpoints/
+.DS_Store
+.idea/
+.vscode/settings.json

@@ -1,0 +1,21 @@
+[image]
+width = 128
+height = 128
+resize_policy = "center_crop"
+max_file_bytes = 20971520
+max_pixels = 16777216
+allowed_formats = ["PNG", "JPEG", "BMP"]
+
+[detector]
+minimum_training_images = 3
+minimum_std = 0.02
+image_score_quantile = 0.995
+
+[calibration]
+method = "normal_quantile"
+normal_quantile = 0.995
+false_reject_cost = 1.0
+defect_escape_cost = 25.0
+
+[artifact]
+max_model_bytes = 268435456
