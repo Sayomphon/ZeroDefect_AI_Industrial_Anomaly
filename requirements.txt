@@ -1,0 +1,4 @@
+# Convenience installation for the production core.
+# pyproject.toml is the authoritative dependency definition.
+numpy>=2.0,<3
+Pillow>=11.3,<13
