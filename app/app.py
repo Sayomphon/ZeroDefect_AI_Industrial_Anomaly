@@ -12,6 +12,8 @@ import numpy as np
 from zerodefect_ai.errors import ZeroDefectError
 from zerodefect_ai.service import InspectionService
 
+MIN_COLAB_PASSWORD_LENGTH = 12
+
 
 def build_app(artifact_dir: Path | str) -> Any:
     """Create a Gradio app without importing Gradio into the production core."""
@@ -69,6 +71,43 @@ def build_app(artifact_dir: Path | str) -> Any:
             outputs=[overlay_output, decision_output, json_output],
         )
     return demo
+
+
+def launch_colab_app(
+    artifact_dir: Path | str,
+    *,
+    username: str,
+    password: str,
+    confirm_public_share: bool = False,
+) -> Any:
+    """Launch the dashboard from Colab with explicit public-link consent and auth.
+
+    A managed Colab runtime cannot expose its localhost server directly. Gradio therefore
+    requires a share tunnel in that environment. This helper keeps public sharing opt-in,
+    requires credentials, and limits the worker pool for a free-compute notebook runtime.
+    """
+
+    if not confirm_public_share:
+        raise ValueError(
+            "Colab launch creates a public Gradio share URL; set "
+            "confirm_public_share=True only after reviewing the exposure warning"
+        )
+    normalized_username = username.strip()
+    if not normalized_username:
+        raise ValueError("Gradio username must not be empty")
+    if len(password) < MIN_COLAB_PASSWORD_LENGTH:
+        raise ValueError(
+            f"Gradio password must contain at least {MIN_COLAB_PASSWORD_LENGTH} characters"
+        )
+
+    return build_app(artifact_dir).launch(
+        share=True,
+        inline=True,
+        debug=True,
+        auth=(normalized_username, password),
+        max_threads=4,
+        show_error=False,
+    )
 
 
 def main() -> None:

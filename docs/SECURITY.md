@@ -16,7 +16,9 @@ artifact corruption, accidental data exposure และ unauthenticated network 
 - โหลด NPZ ด้วย `allow_pickle=False` และจำกัด header/model size
 - ตรวจ SHA-256 ของ model/metadata ก่อน load
 - เขียน artifact/JSON แบบ atomic เพื่อลด partial-write corruption
-- Gradio bind เฉพาะ loopback และ `share=False` โดย default
+- Local Gradio bind เฉพาะ loopback และ `share=False` โดย default
+- Colab Gradio helper ต้อง opt in ต่อ public share, ใช้ username/password อย่างน้อย 12 ตัวอักษร
+  และจำกัด worker threads
 - `.gitignore` ป้องกัน dataset, artifact, `.env` และ output หลุดเข้า repository
 
 ## Residual risks
@@ -25,7 +27,9 @@ artifact corruption, accidental data exposure และ unauthenticated network 
   และ manifest ได้ยัง bypass ได้ Production ต้องใช้ artifact signing และ trusted registry
 - Process เดียวไม่ใช่ sandbox หากเปิดรับไฟล์จาก untrusted network ควรรัน container แบบ non-root,
   read-only filesystem, CPU/memory/time limits และ malware scanning ตามนโยบายองค์กร
-- UI ไม่มี authentication ในตัว ต้องวางหลัง authenticated reverse proxy หรือ enterprise gateway
+- Local UI ไม่มี authentication ในตัว ต้องวางหลัง authenticated reverse proxy หรือ enterprise gateway
+- Colab share URL แม้มี basic authentication ยังเป็น internet-facing endpoint ห้ามใช้กับภาพโรงงานจริง,
+  PII, secret หรือ proprietary artifact และต้องหยุด runtime หลังจบ demo
 - Dataset/image อาจมีข้อมูลทรัพย์สินทางปัญญา ต้องมี access control, encryption, retention และ audit policy
 
 ## Security release gate

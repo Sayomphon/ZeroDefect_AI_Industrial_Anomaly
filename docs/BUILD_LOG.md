@@ -111,3 +111,26 @@ Developer, Data Engineer และ AI Engineer สามารถติดตา
 - ตรวจยืนยันว่า local `HEAD` และ remote branch ชี้ไปยัง commit เดียวกันหลัง push
 - ไม่สร้าง Pull Request เนื่องจากขอบเขตงานรอบนี้กำหนดให้ commit และ push เท่านั้น
 - เพิ่มบันทึกผลการเผยแพร่นี้เป็น documentation follow-up commit บน branch เดิม
+
+## 2026-07-18 — Colab delivery and main-branch integration
+
+### Colab notebook
+
+- เพิ่ม `notebooks/00_colab_quickstart.ipynb` เป็น clean-runtime entry point
+- notebook clone/pull `main` แบบไม่เขียนทับ dirty checkout และติดตั้ง `.[demo]`
+- เรียก reusable `ProjectConfig` และ `run_smoke()` แทนการคัดลอก model logic
+- แสดง runtime diagnostics, smoke report, image metrics และ prediction overlay
+- ไม่มี saved cell output, credential หรือ hard-coded local path
+
+### Colab-specific Gradio control
+
+- เพิ่ม `launch_colab_app()` โดยต้อง opt in ต่อ public share อย่างชัดเจน
+- บังคับ username และ password อย่างน้อย 12 ตัวอักษร
+- จำกัด worker threads และคง local launch default เป็น loopback/ไม่ share
+- notebook ปิด Gradio share โดย default เพื่อให้ Run all ไม่เปิด endpoint
+
+### Validation and GitHub delivery
+
+- เพิ่ม standard-library notebook validator และ Colab launch-policy tests
+- บันทึกผล validation จริงใน `docs/TEST_REPORT.md`
+- publish ผ่าน branch `agent/initialize-zerodefect-ai` แล้ว merge เข้า `main` ผ่าน GitHub PR
